@@ -91,5 +91,10 @@ public class StudentService {
         }
         return false;
     }
+    public Student getCurrentUser() {
+        return studentRepository.findAll().stream().findFirst()
+                .orElseThrow(() -> new RuntimeException("Aucun étudiant trouvé."));
+    }
+
 }
 

@@ -23,4 +23,9 @@ public class SchoolClass {
 
     @OneToMany(mappedBy = "classe")
     private List<Student> etudiants;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "filiere_id", nullable = false)
+    private Speciality filiere;
 }

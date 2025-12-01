@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = false)
 public class LoginRequest {
-    @JsonProperty(value = "email", required = true)
+    @JsonProperty(value = "username", required = true)
     private String email;
 
     @JsonProperty(value = "password", required = true)

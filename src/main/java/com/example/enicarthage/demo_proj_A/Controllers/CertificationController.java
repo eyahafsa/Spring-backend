@@ -19,22 +19,19 @@ public class CertificationController {
     @Autowired
     private CertificationService certificationService;
 
-    // Créer une nouvelle certification
     @PostMapping
     public ResponseEntity<CertificationDTO> createCertification(@RequestBody CertificationDTO certificationDTO) {
-        // Conversion du DTO vers le modèle Certification
         Certification certification = new Certification(
                 certificationDTO.getId(),
                 certificationDTO.getType(),
                 certificationDTO.getScore(),
                 certificationDTO.getStatut(),
-                null, // On peut ajouter l'étudiant via un service ou un ID
-                null  // On peut ajouter la direction via un service ou un ID
+                null,
+                null
         );
 
         Certification createdCertification = certificationService.createCertification(certification);
 
-        // Convertir la certification créée en DTO pour répondre
         CertificationDTO createdCertificationDTO = new CertificationDTO(
                 createdCertification.getId(),
                 createdCertification.getType(),
@@ -47,7 +44,6 @@ public class CertificationController {
         return ResponseEntity.ok(createdCertificationDTO);
     }
 
-    // Récupérer toutes les certifications
     @GetMapping
     public List<CertificationDTO> getAllCertifications() {
         List<Certification> certifications = certificationService.getAllCertifications();
@@ -62,7 +58,6 @@ public class CertificationController {
         )).collect(Collectors.toList());
     }
 
-    // Récupérer une certification par ID
     @GetMapping("/{id}")
     public ResponseEntity<CertificationDTO> getCertificationById(@PathVariable Long id) {
         Certification certification = certificationService.getCertificationById(id)
@@ -94,8 +89,8 @@ public class CertificationController {
                 certificationDTO.getType(),
                 certificationDTO.getScore(),
                 certificationDTO.getStatut(),
-                null, // On peut ajouter l'étudiant via un service ou un ID
-                null  // On peut ajouter la direction via un service ou un ID
+                null,
+                null
         );
 
         Certification updatedCertification = certificationService.updateCertification(id, certification);
@@ -116,7 +111,6 @@ public class CertificationController {
         return ResponseEntity.ok(updatedCertificationDTO);
     }
 
-    // Supprimer une certification
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCertification(@PathVariable Long id) {
         certificationService.deleteCertification(id);

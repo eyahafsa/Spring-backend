@@ -43,7 +43,7 @@ public class TeacherService {
     }
 
     // Récupérer toutes les notes données par un professeur
-    public List<Note> getNotesByProfesseurId(Long professeurId) {
+    public List<Note> getNotesByProfesseurId(int professeurId) {
         return noteRepository.findByProfesseurId(professeurId);
     }
 

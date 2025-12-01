@@ -23,7 +23,6 @@ public class Certification {
     @JoinColumn(name = "direction_id")
     private Direction direction;
 
-    // Getters and Setters (automatiquement générés par Lombok)
     public Long getId() {
         return id;
     }

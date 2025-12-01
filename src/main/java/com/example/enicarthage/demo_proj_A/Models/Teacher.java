@@ -9,7 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Teacher {
     @Id
-    private int id;
+    private Long id;
     private String nom;
     private String prenom;
     private String email;

@@ -27,7 +27,7 @@ public class TeacherController {
 
     // Récupérer toutes les notes d’un professeur
     @GetMapping("/{professeurId}/notes")
-    public List<Note> getNotesByProf(@PathVariable Long professeurId) {
+    public List<Note> getNotesByProf(@PathVariable int professeurId) {
         return teacherService.getNotesByProfesseurId(professeurId);
     }
 

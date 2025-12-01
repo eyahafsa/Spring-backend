@@ -9,6 +9,7 @@ import java.util.List;
 public interface SchoolClassRepository extends JpaRepository<SchoolClass, Long> {
 
     List<SchoolClass> findByDirection(Direction direction);
+    List<SchoolClass> findByFiliere_Nom(String filiereName);
 
 
 

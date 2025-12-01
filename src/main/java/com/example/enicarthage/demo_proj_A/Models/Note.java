@@ -10,9 +10,15 @@ import java.util.List;
 @AllArgsConstructor
 public class Note {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String note;
     private String date;
+    private String langue;
+    private String niveau;
+    private String semestre;
+    private double seuilValidation;
+
 
     @ManyToOne
     @JoinColumn(name = "etudiant_id")
@@ -21,4 +27,7 @@ public class Note {
     @ManyToOne
     @JoinColumn(name = "professeur_id")
     private Teacher professeur;
+    @ManyToOne
+    @JoinColumn(name = "module_id")
+    private Module module;
 }

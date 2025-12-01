@@ -6,8 +6,10 @@ import com.example.enicarthage.demo_proj_A.Repositories.StudentRepository;
 import com.example.enicarthage.demo_proj_A.Repositories.TeacherRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/auth")
@@ -27,50 +30,68 @@ public class LoginController {
     @Autowired
     private DirectionRepository directionRepo;
 
+
     @PostMapping("/student")
-    public ResponseEntity<?> loginStudent(@Valid @RequestBody LoginRequest request) {
+    public ResponseEntity<Map<String, Object>> loginStudent(@Valid @RequestBody LoginRequest request) {
         return studentRepo.findByEmailAndMotDePasse(request.getEmail(), request.getPassword())
                 .map(student -> {
-                    Map<String, String> response = new HashMap<>();
-                    response.put("message", "Login success for Student");
+                    Map<String, Object> response = new HashMap<>();
+
+                    response.put("student", Map.of(
+                            "id", student.getId()
+                    ));
+
+                    response.put("authState", Map.of(
+                            "access", Map.of(
+                                    "token", "st-" + student.getId() + "-" + System.currentTimeMillis(),
+                                    "expires", System.currentTimeMillis() + 3600000 // 1 heure
+                            )
+                    ));
+
                     return ResponseEntity.ok(response);
                 })
-                .orElseGet(() -> {
-                    Map<String, String> response = new HashMap<>();
-                    response.put("error", "Invalid credentials");
-                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-                });
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
     }
-
-
-
     @PostMapping("/teacher")
     public ResponseEntity<?> loginTeacher(@Valid @RequestBody LoginRequest request) {
         return teacherRepo.findByEmailAndMotDePasse(request.getEmail(), request.getPassword())
                 .map(student -> {
-                    Map<String, String> response = new HashMap<>();
-                    response.put("message", "Login success for Teacher");
+                    Map<String, Object> response = new HashMap<>();
+
+                    response.put("teacher", Map.of(
+                            "id", student.getId()
+                    ));
+
+                    response.put("authState", Map.of(
+                            "access", Map.of(
+                                    "token", "st-" + student.getId() + "-" + System.currentTimeMillis(),
+                                    "expires", System.currentTimeMillis() + 3600000 // 1 heure
+                            )
+                    ));
+
                     return ResponseEntity.ok(response);
                 })
-                .orElseGet(() -> {
-                    Map<String, String> response = new HashMap<>();
-                    response.put("error", "Invalid credentials");
-                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-                });
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
     }
-
     @PostMapping("/direction")
     public ResponseEntity<?> loginDirection(@Valid @RequestBody LoginRequest request) {
         return directionRepo.findByEmailAndMotDePasse(request.getEmail(), request.getPassword())
-                .map(student -> {
-                    Map<String, String> response = new HashMap<>();
-                    response.put("message", "Login success for Admin");
+                .map(direction -> {
+                    Map<String, Object> response = new HashMap<>();
+
+                    response.put("direction", Map.of(
+                            "id", direction.getId()
+                    ));
+
+                    response.put("authState", Map.of(
+                            "access", Map.of(
+                                    "token", "st-" + direction.getId() + "-" + System.currentTimeMillis(),
+                                    "expires", System.currentTimeMillis() + 3600000 // 1 heure
+                            )
+                    ));
                     return ResponseEntity.ok(response);
                 })
-                .orElseGet(() -> {
-                    Map<String, String> response = new HashMap<>();
-                    response.put("error", "Invalid credentials");
-                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-                });    }
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
+    }
 
 }
